@@ -49,7 +49,7 @@ namespace TextRPG
             public int itemStat { get; set; }
             public int itemGold { get; set; }
             public string itemSell { get; set; }  
-            public bool isSell {  get; set; }               // <- bool값값은 아이템을 샀을때 팔렸는지 체크하기 위해 만듬, string값은 공백으로 뒀다가 팔리면 구매완료로 바꿔줬음.
+            public bool isSell {  get; set; }               // <- bool값은 아이템을 샀을때 팔렸는지 체크하기 위해 만듬, string값은 공백으로 뒀다가 팔리면 구매완료로 바꿔줬음.
 
 
             public Item(string name, string type, string info, int stat, int gold, string sell, bool issell)
@@ -174,7 +174,7 @@ namespace TextRPG
             }
         }
 
-        static void printInfo(string s)            // <- 초기 스탯은 그대로 잘 나오는데, 상점에서 골드를 썻을때 골드가 차감이 안되고 초기 상태 그대로 나옴.
+        static void printInfo(string s)            // <- 초기 스탯은 그대로 잘 나오는데, 상점에서 골드를 썻을때 골드가 차감이 안되고 초기 상태 그대로 나옴. 전달이 안되는 것 같음.
         {
             Player player = new Player(s);
 
@@ -193,7 +193,7 @@ namespace TextRPG
             Console.Write(">> ");
         }
 
-        static void printInven()             // <- 구매한 아이템을 여기로 띄어주고 싶은데 그게 잘 안됫음.
+        static void printInven()             // <- 구매한 아이템을 여기로 띄어주고 싶은데 그게 잘 안됫음. 구매 후 전달이 안되는 것 같음.
         {
             Inventory inventory = new Inventory();
 
@@ -246,12 +246,12 @@ namespace TextRPG
 
                                 string n1 = Console.ReadLine();
 
-                                if (int.TryParse(n1, out int num1))
+                                if (int.TryParse(n1, out int num1))  // <-tryparse로 숫자일때 만 작동됨.
                                 {
                                     if (num1 == 0)
                                     {
                                         Console.Clear();
-                                        isNum = false;
+                                        isNum = false;             // <- isNum이 true일때 while문을 돌아서 false로 해서 탈출해줌.
                                     }
                                 }
                                 else
@@ -270,7 +270,7 @@ namespace TextRPG
                                         Console.Clear();
                                         isNum = false;
                                     }
-                                    else if( num2 == 1)                               // <- 상점을 먼저 하려다 보니까 장착 관련은 하지 못했음.
+                                    else if( num2 == 1)                               // <- 상점을 먼저 하다 보니까 장착 관련은 하지 못했음.
                                     {
 
                                     }
