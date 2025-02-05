@@ -120,52 +120,13 @@ namespace TextRPG
                 }
             }
 
-            public void printShopList(string s)
+            public void printShopList(Player player)  // <- 제출하고 생각해보니까 여기서 string으로 받는게 아니라 Player로 받으면 상점에서 골드 차감이 해결 될 것것 같아서 바꾸니까 됬음.
             {
-                Player player = new Player(s);
+                //Player player = new Player(s);        
 
                 Console.Clear();
 
-                Console.WriteLine("상점\n필요한 아이템을 얻을 수 있는 상점입니다.\n");
-                Console.WriteLine($"보유 골드 : {player.Gold} g\n");
-                Console.WriteLine("[아이템 목록]");
-                for (int i = 0; i < shopItems.Count; i++)
-                {
-                    Console.WriteLine($"- {shopItems[i].itemName}  |  {shopItems[i].itemType} + {shopItems[i].itemStat}  |  {shopItems[i].itemInfo}  |  {shopItems[i].itemGold} g  |  {shopItems[i].itemSell}");
-                }
-                Console.WriteLine();
-                Console.WriteLine("1. 아이템 구매\n0. 나가기\n");
-                Console.WriteLine("원하시는 행동을 입력해주세요.");
-                Console.Write(">> ");
-            }
- 
-
-            public void printBuyList(string s)            // <- printShopList랑 똑같은데 단지 앞에 번호를 써주고 싶어서 하나 더 작성했음. 2개인데 거의 똑같은 코드라서 다른 방법이 있는지 궁금함.
-            {
-                Player player = new Player(s);
-
-                Console.Clear();
-
-                Console.WriteLine("상점\n필요한 아이템을 얻을 수 있는 상점입니다.\n");
-                Console.WriteLine($"보유 골드 : {player.Gold} g\n");
-                Console.WriteLine("[아이템 목록]");
-                for (int i = 0; i < shopItems.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}. {shopItems[i].itemName}  |  {shopItems[i].itemType} + {shopItems[i].itemStat}  |  {shopItems[i].itemInfo}  |  {shopItems[i].itemGold} g  |  {shopItems[i].itemSell}");
-                }
-                Console.WriteLine();
-                Console.WriteLine("0. 나가기\n");
-                Console.WriteLine("원하시는 행동을 입력해주세요.");
-                Console.Write(">> ");
-            }
-
-            public void BuyItem(Player player, int a)
-            {
-                Inventory inventory = new Inventory();
-
-                if (shopItems[a - 1].itemGold <= player.Gold && shopItems[a - 1].isSell == false)
-                {
-                    player.Gold -= shopItems[a - 1].itemGold;       // <- 구매하고 player.gold를 깍아주고 싶었는데 전달이 안되는 것 같음.
+  됨.
                     shopItems[a - 1].itemSell = "구매완료";
                     shopItems[a - 1].isSell = true;
 
@@ -174,7 +135,7 @@ namespace TextRPG
             }
         }
 
-        static void printInfo(string s)            // <- 초기 스탯은 그대로 잘 나오는데, 상점에서 골드를 썻을때 골드가 차감이 안되고 초기 상태 그대로 나옴. 전달이 안되는 것 같음.
+        static void printInfo(string s)            // <- 초기 스탯은 그대로 잘 나오는데, 상점에서 골드를 썻을때 골드가 차감이 안되고 초기 상태 그대로 나옴. 위에서 player로 받아와서 해결될 줄 알았는데 여기는 아직 안됨.
         {
             Player player = new Player(s);
 
@@ -282,7 +243,7 @@ namespace TextRPG
                             case 3:
                                 shop.settingShop();
 
-                                shop.printShopList(playerName);
+                                shop.printShopList(player);
 
                                 string n3 = Console.ReadLine();
 
@@ -295,11 +256,11 @@ namespace TextRPG
                                     }
                                     else if (num3 == 1)
                                     {
-                                        shop.printBuyList(playerName);
+                                        shop.printBuyList(player);
 
                                         string n4 = Console.ReadLine();
 
-                                        if (int.TryParse(n4, out int num4))     // <- 뭔가 너무 길다고 느껴짐. 더 줄일 수 있을지 모르겠음
+                                        if (int.TryParse(n4, out int num4))     // <- 구매할 아이템 숫자를 받아옴. 뭔가 너무 길다고 느껴짐. 더 줄일 수 있을지 모르겠음
                                         {
                                             if(num4 == 0)
                                             {
