@@ -48,8 +48,8 @@ namespace TextRPG
             public string itemInfo { get; set; }
             public int itemStat { get; set; }
             public int itemGold { get; set; }
-            public string itemSell { get; set; }  
-            public bool isSell {  get; set; }               // <- bool값은 아이템을 샀을때 팔렸는지 체크하기 위해 만듬, string값은 공백으로 뒀다가 팔리면 구매완료로 바꿔줬음.
+            public string itemSell { get; set; }    
+            public bool isSell {  get; set; }                    // <- bool값은 아이템을 샀을때 팔렸는지 체크하기 위해 만듬, string값은 공백으로 뒀다가 팔리면 구매완료로 바꿔줬음.
 
 
             public Item(string name, string type, string info, int stat, int gold, string sell, bool issell)
@@ -102,12 +102,12 @@ namespace TextRPG
 
             public void settingShop()                // <-단순히 생각해서 상점에 먼저 아이템이 있어야될 것 같아서 여기에서 아이템 넣기를 해버림. 이러면 인벤토리랑 장착에서 문제가 생길지 궁금함.
             {
-                Item item1 = new Item("수련자 갑옷", "방어력", "수련에 도움을 주는 갑옷입니다.", 5, 1000, "");
-                Item item2 = new Item("무쇠 갑옷", "방어력", "무쇠로 만들어져 튼튼한 갑옷입니다.", 9, 2000, "");
-                Item item3 = new Item("스파르타 갑옷", "방어력", "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 15, 3500, "");
-                Item item4 = new Item("낡은 검", "공격력", "쉽게 볼 수 있는 낡은 검 입니다.", 2, 600, "");
-                Item item5 = new Item("청동 도끼", "공격력", "어디선가 사용됐던거 같은 도끼입니다.", 5, 1500, "");
-                Item item6 = new Item("스파르타 창", "공격력", "스파르타의 전사들이 사용했다는 전설의 창입니다.", 7, 3000, "");
+                Item item1 = new Item("수련자 갑옷", "방어력", "수련에 도움을 주는 갑옷입니다.", 5, 1000, "", false);
+                Item item2 = new Item("무쇠 갑옷", "방어력", "무쇠로 만들어져 튼튼한 갑옷입니다.", 9, 2000, "", false);
+                Item item3 = new Item("스파르타 갑옷", "방어력", "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 15, 3500, "", false);
+                Item item4 = new Item("낡은 검", "공격력", "쉽게 볼 수 있는 낡은 검 입니다.", 2, 600, "", false);
+                Item item5 = new Item("청동 도끼", "공격력", "어디선가 사용됐던거 같은 도끼입니다.", 5, 1500, "", false);
+                Item item6 = new Item("스파르타 창", "공격력", "스파르타의 전사들이 사용했다는 전설의 창입니다.", 7, 3000, "", false);
 
                 if (shopItems.Count < 6)
                 {
@@ -120,13 +120,52 @@ namespace TextRPG
                 }
             }
 
-            public void printShopList(Player player)  // <- 제출하고 생각해보니까 여기서 string으로 받는게 아니라 Player로 받으면 상점에서 골드 차감이 해결 될 것것 같아서 바꾸니까 됬음.
+            public void printShopList(Player player)                     // <- 제출하고 생각해보니까 여기서 string으로 받는게 아니라 Player로 받으면 상점에서 골드 차감이 해결 될 것것 같아서 바꾸니까 됬음.
             {
-                //Player player = new Player(s);        
+                //Player player = new Player(s);
 
                 Console.Clear();
 
-  됨.
+                Console.WriteLine("상점\n필요한 아이템을 얻을 수 있는 상점입니다.\n");
+                Console.WriteLine($"보유 골드 : {player.Gold} g\n");
+                Console.WriteLine("[아이템 목록]");
+                for (int i = 0; i < shopItems.Count; i++)
+                {
+                    Console.WriteLine($"- {shopItems[i].itemName}  |  {shopItems[i].itemType} + {shopItems[i].itemStat}  |  {shopItems[i].itemInfo}  |  {shopItems[i].itemGold} g  |  {shopItems[i].itemSell}");
+                }
+                Console.WriteLine();
+                Console.WriteLine("1. 아이템 구매\n0. 나가기\n");
+                Console.WriteLine("원하시는 행동을 입력해주세요.");
+                Console.Write(">> ");
+            }
+
+
+            public void printBuyList(Player player)            // <- printShopList랑 똑같은데 단지 앞에 번호를 써주고 싶어서 하나 더 작성했음. 2개인데 거의 똑같은 코드라서 다른 방법이 있는지 궁금함.
+            {
+                //Player player = new Player(s);
+
+                Console.Clear();
+
+                Console.WriteLine("상점\n필요한 아이템을 얻을 수 있는 상점입니다.\n");
+                Console.WriteLine($"보유 골드 : {player.Gold} g\n");
+                Console.WriteLine("[아이템 목록]");
+                for (int i = 0; i < shopItems.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {shopItems[i].itemName}  |  {shopItems[i].itemType} + {shopItems[i].itemStat}  |  {shopItems[i].itemInfo}  |  {shopItems[i].itemGold} g  |  {shopItems[i].itemSell}");
+                }
+                Console.WriteLine();
+                Console.WriteLine("0. 나가기\n");
+                Console.WriteLine("원하시는 행동을 입력해주세요.");
+                Console.Write(">> ");
+            }
+
+            public void BuyItem(Player player, int a)
+            {
+                Inventory inventory = new Inventory();
+
+                if (shopItems[a - 1].itemGold <= player.Gold && shopItems[a - 1].isSell == false)
+                {
+                    player.Gold -= shopItems[a - 1].itemGold;       // <- 구매하고 player.gold를 깍아주고 싶었는데 전달이 안되는 것 같음. 
                     shopItems[a - 1].itemSell = "구매완료";
                     shopItems[a - 1].isSell = true;
 
@@ -135,7 +174,7 @@ namespace TextRPG
             }
         }
 
-        static void printInfo(string s)            // <- 초기 스탯은 그대로 잘 나오는데, 상점에서 골드를 썻을때 골드가 차감이 안되고 초기 상태 그대로 나옴. 위에서 player로 받아와서 해결될 줄 알았는데 여기는 아직 안됨.
+        static void printInfo(string s)            // <- 초기 스탯은 그대로 잘 나오는데, 상점에서 골드를 썻을때 골드가 차감이 안되고 초기 상태 그대로 나옴.
         {
             Player player = new Player(s);
 
@@ -154,7 +193,7 @@ namespace TextRPG
             Console.Write(">> ");
         }
 
-        static void printInven()             // <- 구매한 아이템을 여기로 띄어주고 싶은데 그게 잘 안됫음. 구매 후 전달이 안되는 것 같음.
+        static void printInven()             // <- 구매한 아이템을 여기로 띄어주고 싶은데 그게 잘 안됫음.
         {
             Inventory inventory = new Inventory();
 
@@ -207,12 +246,12 @@ namespace TextRPG
 
                                 string n1 = Console.ReadLine();
 
-                                if (int.TryParse(n1, out int num1))  // <-tryparse로 숫자일때 만 작동됨.
+                                if (int.TryParse(n1, out int num1))
                                 {
                                     if (num1 == 0)
                                     {
                                         Console.Clear();
-                                        isNum = false;             // <- isNum이 true일때 while문을 돌아서 false로 해서 탈출해줌.
+                                        isNum = false;
                                     }
                                 }
                                 else
@@ -231,7 +270,7 @@ namespace TextRPG
                                         Console.Clear();
                                         isNum = false;
                                     }
-                                    else if( num2 == 1)                               // <- 상점을 먼저 하다 보니까 장착 관련은 하지 못했음.
+                                    else if( num2 == 1)                               // <- 장착 관련은 하지 못했음.
                                     {
 
                                     }
@@ -260,7 +299,7 @@ namespace TextRPG
 
                                         string n4 = Console.ReadLine();
 
-                                        if (int.TryParse(n4, out int num4))     // <- 구매할 아이템 숫자를 받아옴. 뭔가 너무 길다고 느껴짐. 더 줄일 수 있을지 모르겠음
+                                        if (int.TryParse(n4, out int num4))     // <- 뭔가 너무 길다고 느껴짐. 더 줄일 수 있을지 모르겠음
                                         {
                                             if(num4 == 0)
                                             {
