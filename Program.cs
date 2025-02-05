@@ -48,10 +48,11 @@ namespace TextRPG
             public string itemInfo { get; set; }
             public int itemStat { get; set; }
             public int itemGold { get; set; }
-            public string itemSell { get; set; }    
+            public string itemSell { get; set; }  
+            public bool isSell {  get; set; }               // <- bool값값은 아이템을 샀을때 팔렸는지 체크하기 위해 만듬, string값은 공백으로 뒀다가 팔리면 구매완료로 바꿔줬음.
 
 
-            public Item(string name, string type, string info, int stat, int gold, string sell)
+            public Item(string name, string type, string info, int stat, int gold, string sell, bool issell)
             {
                 itemName = name;
                 itemType = type;
@@ -59,6 +60,7 @@ namespace TextRPG
                 itemStat = stat;
                 itemGold = gold;
                 itemSell = sell;
+                isSell = issell;
             }
         }
 
@@ -161,10 +163,11 @@ namespace TextRPG
             {
                 Inventory inventory = new Inventory();
 
-                if (shopItems[a - 1].itemGold <= player.Gold)
+                if (shopItems[a - 1].itemGold <= player.Gold && shopItems[a - 1].isSell == false)
                 {
                     player.Gold -= shopItems[a - 1].itemGold;       // <- 구매하고 player.gold를 깍아주고 싶었는데 전달이 안되는 것 같음.
-                    shopItems[a - 1].itemSell = "구매완료";             // <- 이런 방식으로 해도 괜찮을지 모르겠음. 판매가 된지를 판단하지 못할 것 같음.
+                    shopItems[a - 1].itemSell = "구매완료";
+                    shopItems[a - 1].isSell = true;
 
                     inventory.addItem(shopItems[a - 1]);             // <- 구매하면 인벤토리에 additem을 써서 넣어주고 싶었는데 잘 안됨. 골드랑 마찬가지로 전달이 안되는 것 같음.
                 }
