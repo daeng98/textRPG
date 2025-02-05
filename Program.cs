@@ -138,7 +138,7 @@ namespace TextRPG
             }
  
 
-            public void printShopBuy(string s)            // <- printShopList랑 똑같은데 단지 앞에 번호를 써주고 싶어서 하나 더 작성했음. 2개인데 거의 똑같은 코드라서 다른 방법이 있는지 궁금함.
+            public void printBuyList(string s)            // <- printShopList랑 똑같은데 단지 앞에 번호를 써주고 싶어서 하나 더 작성했음. 2개인데 거의 똑같은 코드라서 다른 방법이 있는지 궁금함.
             {
                 Player player = new Player(s);
 
@@ -157,7 +157,7 @@ namespace TextRPG
                 Console.Write(">> ");
             }
 
-            public void ShopBuy(Player player, int a)
+            public void BuyItem(Player player, int a)
             {
                 Inventory inventory = new Inventory();
 
@@ -292,7 +292,7 @@ namespace TextRPG
                                     }
                                     else if (num3 == 1)
                                     {
-                                        shop.printShopBuy(playerName);
+                                        shop.printBuyList(playerName);
 
                                         string n4 = Console.ReadLine();
 
@@ -305,27 +305,27 @@ namespace TextRPG
                                             }
                                             else if(num4 == 1)
                                             {
-                                                shop.ShopBuy(player, num4);     
+                                                shop.BuyItem(player, num4);     
                                             }
                                             else if (num4 == 2)
                                             {
-                                                shop.ShopBuy(player, num4);
+                                                shop.BuyItem(player, num4);
                                             }
                                             else if (num4 == 3)
                                             {
-                                                shop.ShopBuy(player, num4);
+                                                shop.BuyItem(player, num4);
                                             }
                                             else if (num4 == 4)
                                             {
-                                                shop.ShopBuy(player, num4);
+                                                shop.BuyItem(player, num4);
                                             }
                                             else if (num4 == 5)
                                             {
-                                                shop.ShopBuy(player, num4);
+                                                shop.BuyItem(player, num4);
                                             }
                                             else if (num4 == 6)
                                             {
-                                                shop.ShopBuy(player, num4);
+                                                shop.BuyItem(player, num4);
                                             }
                                             else
                                             {
